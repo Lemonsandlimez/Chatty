@@ -120,7 +120,7 @@ class Memory:
 
     # training
 
-    def train(self, array, Category="General"):
+    def Train(self, array, Category="General"):
         Cur = self.DB.cursor()
         Cur.execute("BEGIN IMMEDIATE TRANSACTION")
 
@@ -258,3 +258,17 @@ class Memory:
 
     async def RecallLong_async(self, Key, Default=None):
         return await asyncio.to_thread(self.RecallLong, Key, Default)
+
+    # syntax sugar
+
+    def AddFact(self, text: str, Category="General"):
+        self.train([text], Category)
+
+    def AddFactPerm(self, text: str, Category="Permanent"):
+        self.trainperm([text], Category)
+
+    async def AddFact_async(self, text: str, Category="General"):
+        await self.train_async([text], Category)
+
+    async def AddFactPerm_async(self, text: str, Category="Permanent"):
+        await self.trainperm_async([text], Category)
